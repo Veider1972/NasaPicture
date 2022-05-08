@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">NasaPicture</string>
+    <string name="app_name">Картинка дня</string>
+    <string name="description">Описание</string>
+    <string name="wiki_search_helper_text">Поиск в Википедии</string>
+    <string name="wiki_search_word_empty">Вы не указали слово для поиска</string>
+
+    <string name="searched_query">Ищем описание для:</string>
+    <string name="searched_at_wiki">Найдено в Википедии:</string>
 </resources>
