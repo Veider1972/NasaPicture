@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/global_padding"
+    tools:context=".ui.search.WikiSearchFragment">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/searched_query"
+            android:textColor="?colorPrimaryDark"
+            android:textSize="@dimen/searched_title_text_size" />
+
+        <TextView
+            android:id="@+id/word_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/global_padding"
+            android:textSize="@dimen/searched_word_text_size"
+            tools:text="Образец текста" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/searched_at_wiki"
+            android:textColor="?colorPrimaryDark"
+            android:textSize="@dimen/searched_title_text_size" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/words_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/wiki_search_item"/>
+    </LinearLayout>
+
+    <include layout="@layout/loading"
+        android:id="@+id/loading"
+        android:visibility="gone"/>
+
+</LinearLayout>

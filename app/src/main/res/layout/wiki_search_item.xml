@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_decorator"
+    android:layout_marginVertical="@dimen/global_padding"
+    android:id="@+id/main">
+    <ImageView
+        android:id="@+id/wiki_image"
+        android:layout_margin="@dimen/global_padding"
+        android:scaleType="fitCenter"
+        android:layout_weight="0"
+        android:layout_width="30pt"
+        android:layout_height="30pt"/>
+    <TextView
+        android:id="@+id/wiki_word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginVertical="@dimen/searched_title_padding"
+        android:textSize="@dimen/description_text_size"
+        android:layout_gravity="center_vertical"
+        android:singleLine="false"
+        tools:text="Образец текста"/>
+
+</LinearLayout>
