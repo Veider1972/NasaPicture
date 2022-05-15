@@ -14,26 +14,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextView.Header.Search"
             android:text="@string/searched_query"
-            android:textColor="?colorPrimaryDark"
             android:textSize="@dimen/searched_title_text_size" />
 
         <TextView
             android:id="@+id/word_query"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TextView.Description.Search"
             android:layout_marginBottom="@dimen/global_padding"
-            android:textSize="@dimen/searched_word_text_size"
             tools:text="Образец текста" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/searched_at_wiki"
-            android:textColor="?colorPrimaryDark"
-            android:textSize="@dimen/searched_title_text_size" />
+            style="@style/TextView.Header.Search"
+            android:text="@string/searched_at_wiki"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/words_view"

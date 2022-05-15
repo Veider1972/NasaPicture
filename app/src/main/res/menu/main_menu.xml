@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/normal_theme"
+        android:title="@string/theme_green" />
+    <item
+        android:id="@+id/marsian_theme"
+        android:title="@string/theme_red" />
+</menu>

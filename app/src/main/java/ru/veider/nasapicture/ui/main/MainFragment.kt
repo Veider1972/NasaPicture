@@ -72,7 +72,6 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                         bottomSheet.description.text = it.explanation
                     }
                 }
-
             }
         }
     }

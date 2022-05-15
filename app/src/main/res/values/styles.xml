@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NasaBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:opacity">opaque</item>
+    </style>
+
+    <style name="NasaBottomSheet.RedBottomSheet">
+        <item name="strokeColor">@color/dark_red</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="shapeAppearance">@style/RedBottomSheetShapeAppearance</item>
+    </style>
+
+    <style name="NasaBottomSheet.GreenBottomSheet">
+        <item name="strokeColor">@color/dark_green</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="shapeAppearance">@style/GreenBottomSheetShapeAppearance</item>
+    </style>
+
+    <style name="RedBottomSheetShapeAppearance" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/global_corner_radius</item>
+    </style>
+
+    <style name="GreenBottomSheetShapeAppearance" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">@dimen/global_corner_radius</item>
+    </style>
+
+    <style name="TextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="textFillColor">?colorOnPrimary</item>
+    </style>
+
+    <style name="TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextView.Header">
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="android:textSize">@dimen/header_text_size</item>
+        <item name="android:background">@drawable/header_decorator</item>
+    </style>
+
+    <style name="TextView.Description">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:textAlignment">inherit</item>
+        <item name="android:textSize">@dimen/description_text_size</item>
+    </style>
+
+    <style name="TextView.Header.Search">
+        <item name="android:textSize">@dimen/searched_title_text_size</item>
+    </style>
+
+    <style name="TextView.Description.Search">
+        <item name="android:textSize">@dimen/searched_word_text_size</item>
+    </style>
+
+    <style name="NasaMenu" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">?colorOnPrimary</item>
+    </style>
+</resources>
