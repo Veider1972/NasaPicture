@@ -4,7 +4,7 @@
     <dimen name="picture_padding">1pt</dimen>
     <dimen name="header_text_size">20dp</dimen>
     <dimen name="description_text_size">13dp</dimen>
-    <dimen name="searched_title_text_size">25dp</dimen>
+    <dimen name="searched_title_text_size">20dp</dimen>
     <dimen name="searched_title_padding">15dp</dimen>
     <dimen name="searched_word_text_size">17dp</dimen>
     <dimen name="global_corner_radius">10dp</dimen>
@@ -12,4 +12,5 @@
     <dimen name="underline_width">2dp</dimen>
     <dimen name="search_textview_corner_radius">8dp</dimen>
     <dimen name="search_textview_padding">3dp</dimen>
+    <dimen name="bottom_navigation_view_height">15pt</dimen>
 </resources>

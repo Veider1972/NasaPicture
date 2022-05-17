@@ -21,11 +21,11 @@ class MainViewModel(private val nasaRepository: NasaRepository) : ViewModel() {
     private val _error : MutableSharedFlow<String> = MutableSharedFlow()
     val error: Flow<String> = _error
 
-    fun requestPOD(){
+    fun requestPOD(date : String){
         viewModelScope.launch {
             _loading.emit(true)
             try {
-                _image.emit(nasaRepository.pod())
+                _image.emit(nasaRepository.pod(date))
             } catch (e: IOException){
                 _error.emit(e.message.toString())
             }

@@ -10,4 +10,6 @@
     <color name="extra_light_red">#E8C4B1</color>
     <color name="red">#E68A00</color>
     <color name="background_light_red">#F1ECEA</color>
+    <color name="bottom_sheet_selected">?colorPrimaryDark</color>
+    <color name="bottom_sheet_unselected">?colorSecondary</color>
 </resources>
