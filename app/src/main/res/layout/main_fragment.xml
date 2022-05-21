@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:id="@+id/root"
     tools:context=".ui.main.MainFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -14,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_navigation_view">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,24 +24,80 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/TextView.Header"
-                tools:text="Mercury" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/image_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:translationX="@dimen/translation_image">
 
-            <ImageView
-                android:id="@+id/image"
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/TextView.Header"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Mercury" />
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/global_padding"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/bareer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/global_padding"
+                app:layout_constraintTop_toBottomOf="@id/image_layout"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/wiki_search_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/global_padding"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside" />
+                app:layout_constraintTop_toBottomOf="@id/bareer"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/search"
+                app:endIconMode="custom"
+                app:helperText="@string/wiki_search_helper_text"
+                app:helperTextTextColor="?colorOnPrimary">
 
-        </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?colorOnPrimary" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <include
-            android:id="@+id/bottom_sheet"
-            layout="@layout/bottom_sheet" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/wiki_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/global_padding"
+            app:layout_anchor="@id/bottom_sheet"
+            app:layout_anchorGravity="top|end"
+            android:src="@drawable/wikipedia"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:tint="@null"
+            app:maxImageSize="@dimen/fab_image_size"
+            android:elevation="@dimen/fab_elevation"
+            tools:ignore="ContentDescription" />
+
+        <include layout="@layout/bottom_sheet"
+            android:id="@+id/bottom_sheet"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -48,9 +105,9 @@
         style="@style/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_navigation_view_height"
+        android:translationY="@dimen/translation_toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
-
 
     <include
         android:id="@+id/loading"

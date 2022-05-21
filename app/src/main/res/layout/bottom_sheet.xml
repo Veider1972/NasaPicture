@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet_layout"
     style="?attr/bottomSheetStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/bottomsheet_elevation"
     android:orientation="vertical"
     android:padding="@dimen/global_padding"
     android:visibility="gone"
@@ -31,22 +32,5 @@
             android:textIsSelectable="true"
             tools:text="Описание происходящего события" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/wiki_search_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:endIconCheckable="true"
-            app:endIconDrawable="@drawable/search"
-            app:endIconMode="custom"
-            app:helperText="@string/wiki_search_helper_text"
-            app:helperTextTextColor="?colorOnPrimary">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="?colorOnPrimary" />
-        </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>
