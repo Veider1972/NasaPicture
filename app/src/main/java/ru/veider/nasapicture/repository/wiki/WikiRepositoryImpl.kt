@@ -10,7 +10,7 @@ import org.xml.sax.InputSource
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import ru.veider.nasapicture.const.TAG
-import ru.veider.nasapicture.const.WIKI_WORDS_COUNT
+import ru.veider.nasapicture.ui.WIKI_WORDS_COUNT
 import java.io.IOException
 import java.io.StringReader
 import java.lang.Exception

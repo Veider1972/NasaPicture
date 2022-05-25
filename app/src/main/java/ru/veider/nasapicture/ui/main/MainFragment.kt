@@ -3,18 +3,25 @@ package ru.veider.nasapicture.ui.main
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.transition.*
 import coil.api.load
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.main_fragment.*
 import ru.veider.nasapicture.R
-import ru.veider.nasapicture.const.ANIMATION_DURATION
-import ru.veider.nasapicture.const.DAY
-import ru.veider.nasapicture.const.WIKI_SEARCH_BACKSTACK
 import ru.veider.nasapicture.databinding.MainFragmentBinding
 import ru.veider.nasapicture.repository.nasa.NasaRepositoryImpl
+import ru.veider.nasapicture.ui.ANIMATION_DURATION
+import ru.veider.nasapicture.ui.DAY
+import ru.veider.nasapicture.ui.WIKI_SEARCH_BACKSTACK
 import ru.veider.nasapicture.ui.search.WikiSearchFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,9 +29,15 @@ import java.util.*
 class MainFragment : Fragment(R.layout.main_fragment) {
 
     private lateinit var binding: MainFragmentBinding
+    private var isImageExpanded = false
+
 
     companion object {
-        fun newInstance() = MainFragment()
+        var instance: MainFragment? = null
+        fun newInstance() : MainFragment {
+            if (instance == null) instance = MainFragment()
+            return instance!!
+        }
     }
 
     private val viewModel: MainViewModel by viewModels { MainViewModelFactory(NasaRepositoryImpl()) }
@@ -44,14 +57,15 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         return dateFormat.format(calendar.time)
     }
 
-    private fun animateImageOn(){
+    private fun animateImageOn() {
         binding.imageLayout.apply {
-            ObjectAnimator.ofFloat(this,"translationX", resources.getDimension(R.dimen.translation_image),0f).apply {
+            ObjectAnimator.ofFloat(this, "translationX", resources.getDimension(R.dimen.translation_image), 0f).apply {
                 duration = ANIMATION_DURATION
                 start()
             }
         }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,15 +75,32 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             animateImageOn()
         }
 
+        binding.image.setOnClickListener {
+            isImageExpanded = !isImageExpanded
+            TransitionManager.beginDelayedTransition(
+                main_layout, TransitionSet()
+                    .addTransition(ChangeBounds())
+                    .addTransition(ChangeImageTransform())
+            )
+            val params: ViewGroup.LayoutParams = binding.image.layoutParams
+            params.height = if (isImageExpanded) binding.main.height else ViewGroup.LayoutParams.WRAP_CONTENT
+            binding.image.apply {
+                layoutParams = params
+                scaleType = if (isImageExpanded) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
+            }
+        }
+
         binding.wikiShow.setOnClickListener {
-            binding.wikiSearchText.visibility = if (binding.wikiSearchText.visibility==View.VISIBLE) View.GONE else View.VISIBLE
+            TransitionManager.beginDelayedTransition(binding.main, Slide(Gravity.START))
+
+            binding.wikiSearchText.visibility = if (binding.wikiSearchText.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            wikiEffect()
         }
 
         with(binding.bottomNavigationView) {
             selectedItemId = R.id.today
             setOnItemSelectedListener { item ->
                 animateImageOn()
-                binding.wikiSearchText.visibility = View.GONE
                 when (item.itemId) {
                     R.id.ereyesterday -> viewModel.requestPOD(getDay(DAY.EREYESTERDAY))
                     R.id.yesterday    -> viewModel.requestPOD(getDay(DAY.YESTERDAY))
@@ -77,12 +108,8 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                 }
                 true
             }
-            ValueAnimator.ofFloat(resources.getDimension(R.dimen.translation_toolbar), 0f).apply {
-                duration = ANIMATION_DURATION
-                addUpdateListener {
-                    binding.bottomNavigationView.translationY = this.animatedValue as Float
-                }
-            }.start()
+            if (savedInstanceState == null)
+                bottomNavigationIn(this)
         }
 
         binding.wikiSearchText.apply {
@@ -122,11 +149,30 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                 it?.let {
                     binding.apply {
                         image.load(it.hdUrl)
+                        animateImageOn()
                         title.text = String.format("%s:", it.title)
                         bottomSheet.description.text = it.explanation
                     }
                 }
             }
         }
+    }
+
+    private fun wikiEffect() {
+        if (binding.wikiSearchText.visibility == View.VISIBLE) {
+            ObjectAnimator.ofFloat(binding.wikiShow, "rotation", 0f, -180f).start()
+        } else {
+            ObjectAnimator.ofFloat(binding.wikiShow, "rotation", -180f, 0f).start()
+        }
+    }
+
+    private fun bottomNavigationIn(bottomNavigationView: BottomNavigationView) {
+        bottomNavigationView.translationY = resources.getInteger(R.integer.fab_rotation).toFloat()
+        ValueAnimator.ofFloat(resources.getDimension(R.dimen.translation_toolbar), 0f).apply {
+            duration = ANIMATION_DURATION
+            addUpdateListener {
+                bottomNavigationView.translationY = this.animatedValue as Float
+            }
+        }.start()
     }
 }

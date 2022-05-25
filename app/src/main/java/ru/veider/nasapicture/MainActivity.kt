@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import ru.veider.nasapicture.const.PREFERENCES
-import ru.veider.nasapicture.const.THEME_MARSIAN
-import ru.veider.nasapicture.const.THEME_NORMAL
+import ru.veider.nasapicture.ui.PREFERENCES
+import ru.veider.nasapicture.ui.THEME_MARSIAN
+import ru.veider.nasapicture.ui.THEME_NORMAL
 import ru.veider.nasapicture.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
