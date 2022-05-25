@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_green">#628A34</color>
+    <color name="dark_green">#5BB837</color>
+    <color name="extra_light_green">#1E2519</color>
+    <color name="green">#30451F</color>
+    <color name="background_light_green">#111210</color>
+    <color name="light_red">#734126</color>
+    <color name="dark_red">#7C2C02</color>
+    <color name="extra_light_red">#372F2B</color>
+    <color name="red">#593601</color>
+    <color name="background_light_red">#131313</color>
+</resources>

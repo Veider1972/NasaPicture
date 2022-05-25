@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_on_surface">#000000</color>
-    <color name="color_primary">#8BC34A</color>
-    <color name="color_primary_dark">#33691E</color>
-    <color name="color_on_primary">#FEFEFE</color>
-    <color name="color_primary_container">#C3F0A0</color>
-    <color name="color_on_primary_container">#0B2004</color>
-    <color name="color_secondary">#4CAF50</color>
-    <color name="color_on_secondary">#FEFEFE</color>
-    <color name="color_secondary_container">#DBE5CC</color>
-    <color name="color_on_secondary_container">#151E0E</color>
-    <color name="color_tertiary">#316668</color>
-    <color name="color_on_tertiary">#FEFEFE</color>
-    <color name="color_tertiary_container">#B6ECEE</color>
-    <color name="color_on_tertiary_container">#081E20</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="light_green">#72A13C</color>
+    <color name="dark_green">#33691E</color>
+    <color name="extra_light_green">#C3F0A0</color>
+    <color name="green">#7AAF4C</color>
+    <color name="background_light_green">#EAF6E0</color>
+    <color name="light_red">#BF6C3F</color>
+    <color name="dark_red">#8F3301</color>
+    <color name="extra_light_red">#E8C4B1</color>
+    <color name="red">#E68A00</color>
+    <color name="background_light_red">#F1ECEA</color>
 </resources>

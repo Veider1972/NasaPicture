@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/menu_background" />
+    <corners android:radius="@dimen/global_corner_radius" />
+    <padding
+        android:bottom="@dimen/global_padding"
+        android:top="@dimen/global_padding" />
+</shape>

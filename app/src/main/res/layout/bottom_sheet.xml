@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/bottom_sheet_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_layout"
+    style="?attr/bottomSheetStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/global_padding"
-    android:background="@color/white"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="45dp"
-    app:layout_behavior="@string/bottom_sheet_behavior"
     android:visibility="gone"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="@dimen/bottom_sheet_peek_height"
+    app:layout_behavior="@string/bottom_sheet_behavior"
     tools:visibility="visible">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/description"
-        android:textAllCaps="true"
-        android:textColor="@color/color_primary_dark"
-        android:textSize="@dimen/description_text_size" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxWidth="1000dp"
-        android:textAlignment="inherit"
-        android:textColor="@color/black"
-        android:textIsSelectable="true"
-        tools:text="Описание происходящего события" />
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/wiki_search_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:helperText="@string/wiki_search_helper_text"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:boxCornerRadiusBottomEnd="@dimen/wiki_search_corner_radius"
-        app:boxCornerRadiusBottomStart="@dimen/wiki_search_corner_radius"
-        app:boxCornerRadiusTopEnd="@dimen/wiki_search_corner_radius"
-        app:boxCornerRadiusTopStart="@dimen/wiki_search_corner_radius"
-        app:endIconCheckable="true"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/search">
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            style="@style/TextView.Header"
+            android:text="@string/description" />
 
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextView.Description"
+            android:fontFamily="?attr/nasa_font"
+            android:maxWidth="1000dp"
+            android:textIsSelectable="true"
+            tools:text="Описание происходящего события" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/wiki_search_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@drawable/search"
+            app:endIconMode="custom"
+            app:helperText="@string/wiki_search_helper_text"
+            app:helperTextTextColor="?colorOnPrimary">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?colorOnPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</LinearLayout>
+    </LinearLayout>
+</FrameLayout>
