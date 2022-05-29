@@ -9,7 +9,6 @@ import ru.veider.nasapicture.const.THEME_MARSIAN
 import ru.veider.nasapicture.const.THEME_NORMAL
 import ru.veider.nasapicture.ui.main.MainFragment
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

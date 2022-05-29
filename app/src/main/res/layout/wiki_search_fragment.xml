@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,28 +16,24 @@
 
         <TextView
             style="@style/TextView.Header.Search"
-            android:text="@string/searched_query"
-            android:textSize="@dimen/searched_title_text_size" />
+            android:text="@string/searched_at_wiki" />
 
-        <TextView
-            android:id="@+id/word_query"
-            style="@style/TextView.Description.Search"
-            android:layout_marginBottom="@dimen/global_padding"
-            tools:text="Образец текста" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/words_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"/>
 
-        <TextView
-            style="@style/TextView.Header.Search"
-            android:text="@string/searched_at_wiki"/>
-
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/words_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/wiki_search_item"/>
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
-    <include layout="@layout/loading"
+    <include
         android:id="@+id/loading"
-        android:visibility="gone"/>
+        layout="@layout/loading"
+        android:visibility="gone" />
 
 </LinearLayout>

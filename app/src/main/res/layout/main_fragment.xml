@@ -1,38 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/global_padding"
+
     tools:context=".ui.main.MainFragment">
-    <LinearLayout
-        android:id="@+id/main"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation_view">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/TextView.Header"
-            tools:text="Mercury"/>
-        <ImageView
-            android:id="@+id/image"
-            android:layout_marginTop="@dimen/global_padding"
+        <LinearLayout
+            android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/app_name"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/global_padding"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/title"
+                style="@style/TextView.Header"
+                tools:text="Mercury" />
 
-    <include layout="@layout/bottom_sheet"
-        android:id="@+id/bottom_sheet"/>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/global_padding"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside" />
 
-    <include layout="@layout/loading"
+        </LinearLayout>
+
+        <include
+            android:id="@+id/bottom_sheet"
+            layout="@layout/bottom_sheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        style="@style/BottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_navigation_view_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+
+    <include
         android:id="@+id/loading"
-        android:visibility="gone"/>
+        layout="@layout/loading"
+        android:visibility="gone" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

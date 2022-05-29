@@ -39,5 +39,5 @@ class NasaRepositoryImpl : NasaRepository {
         }
     }
 
-    override suspend fun pod(): PODResponse = podApi.getPicture(BuildConfig.NASA_API_KEY)
+    override suspend fun pod(date:String): PODResponse = podApi.getPicture(BuildConfig.NASA_API_KEY, date)
 }

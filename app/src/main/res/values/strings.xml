@@ -7,4 +7,7 @@
     <string name="searched_at_wiki">Найдено в Википедии:</string>
     <string name="theme_green">Зелёная тема</string>
     <string name="theme_red">Красная тема</string>
+    <string name="ereyesterday">Позавчера</string>
+    <string name="yesterday">Вчера</string>
+    <string name="today">Сегодня</string>
 </resources>
