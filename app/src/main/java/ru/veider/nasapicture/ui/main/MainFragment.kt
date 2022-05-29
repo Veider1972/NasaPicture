@@ -1,5 +1,7 @@
 package ru.veider.nasapicture.ui.main
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -8,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import coil.api.load
 import ru.veider.nasapicture.R
+import ru.veider.nasapicture.const.ANIMATION_DURATION
 import ru.veider.nasapicture.const.DAY
 import ru.veider.nasapicture.const.WIKI_SEARCH_BACKSTACK
 import ru.veider.nasapicture.databinding.MainFragmentBinding
@@ -18,18 +21,13 @@ import java.util.*
 
 class MainFragment : Fragment(R.layout.main_fragment) {
 
+    private lateinit var binding: MainFragmentBinding
+
     companion object {
         fun newInstance() = MainFragment()
     }
 
     private val viewModel: MainViewModel by viewModels { MainViewModelFactory(NasaRepositoryImpl()) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            viewModel.requestPOD(getDay(DAY.TODAY))
-        }
-    }
 
     private fun getDay(day: DAY): String {
         val calendar = Calendar.getInstance()
@@ -46,33 +44,48 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         return dateFormat.format(calendar.time)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val binding = MainFragmentBinding.bind(view)
-
-        binding.bottomNavigationView.apply {
-            selectedItemId = R.id.today
-            setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.ereyesterday -> {
-                        viewModel.requestPOD(getDay(DAY.EREYESTERDAY))
-                        true
-                    }
-                    R.id.yesterday    -> {
-                        viewModel.requestPOD(getDay(DAY.YESTERDAY))
-                        true
-                    }
-                    R.id.today        -> {
-                        viewModel.requestPOD(getDay(DAY.TODAY))
-                        true
-                    }
-                    else              -> false
-                }
+    private fun animateImageOn(){
+        binding.imageLayout.apply {
+            ObjectAnimator.ofFloat(this,"translationX", resources.getDimension(R.dimen.translation_image),0f).apply {
+                duration = ANIMATION_DURATION
+                start()
             }
         }
+    }
 
-        binding.bottomSheet.wikiSearchText.apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = MainFragmentBinding.bind(view)
+        if (savedInstanceState == null) {
+            viewModel.requestPOD(getDay(DAY.TODAY))
+            animateImageOn()
+        }
+
+        binding.wikiShow.setOnClickListener {
+            binding.wikiSearchText.visibility = if (binding.wikiSearchText.visibility==View.VISIBLE) View.GONE else View.VISIBLE
+        }
+
+        with(binding.bottomNavigationView) {
+            selectedItemId = R.id.today
+            setOnItemSelectedListener { item ->
+                animateImageOn()
+                binding.wikiSearchText.visibility = View.GONE
+                when (item.itemId) {
+                    R.id.ereyesterday -> viewModel.requestPOD(getDay(DAY.EREYESTERDAY))
+                    R.id.yesterday    -> viewModel.requestPOD(getDay(DAY.YESTERDAY))
+                    R.id.today        -> viewModel.requestPOD(getDay(DAY.TODAY))
+                }
+                true
+            }
+            ValueAnimator.ofFloat(resources.getDimension(R.dimen.translation_toolbar), 0f).apply {
+                duration = ANIMATION_DURATION
+                addUpdateListener {
+                    binding.bottomNavigationView.translationY = this.animatedValue as Float
+                }
+            }.start()
+        }
+
+        binding.wikiSearchText.apply {
             setEndIconOnClickListener {
                 this.editText?.apply {
                     if (text.toString().trim().isEmpty())
@@ -90,8 +103,10 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             viewModel.loading.collect {
                 binding.apply {
                     loading.root.visibility = if (it) View.VISIBLE else View.GONE
-                    main.visibility = if (it) View.GONE else View.VISIBLE
-                    bottomSheet.bottomSheetLayout.visibility = if (it) View.GONE else View.VISIBLE
+                    main.visibility = (if (it) View.GONE else View.VISIBLE).also {
+                        bottomSheet.bottomSheetLayout.visibility = it
+                        wikiShow.visibility = it
+                    }
                 }
             }
         }
