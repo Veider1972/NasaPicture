@@ -12,4 +12,5 @@
     <color name="background_light_red">#F1ECEA</color>
     <color name="bottom_sheet_selected">?colorPrimaryDark</color>
     <color name="bottom_sheet_unselected">?colorSecondary</color>
+    <color name="note_selected">?colorPrimaryContainer</color>
 </resources>

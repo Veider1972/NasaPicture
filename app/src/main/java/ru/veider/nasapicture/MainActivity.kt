@@ -2,14 +2,19 @@ package ru.veider.nasapicture
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import ru.veider.nasapicture.ui.PREFERENCES
-import ru.veider.nasapicture.ui.THEME_MARSIAN
-import ru.veider.nasapicture.ui.THEME_NORMAL
+import ru.veider.nasapicture.ui.THEME_GREEN
+import ru.veider.nasapicture.ui.THEME_RED
 import ru.veider.nasapicture.ui.main.MainFragment
+import ru.veider.nasapicture.ui.note.NoteFragment
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var menu: Menu
+    var showPicture = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,37 +31,64 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
         var str = preferences.getString(PREFERENCES, "")
         if (str!!.isEmpty()) {
-            preferences.edit().putString(PREFERENCES, THEME_NORMAL).apply()
-            str = THEME_NORMAL
+            preferences.edit().putString(PREFERENCES, THEME_GREEN).apply()
+            str = THEME_GREEN
         }
         when (str) {
-            THEME_NORMAL  -> setTheme(R.style.Nasa_Normal)
-            THEME_MARSIAN -> setTheme(R.style.Nasa_Marsian)
+            THEME_GREEN -> setTheme(R.style.Nasa_Green)
+            THEME_RED   -> setTheme(R.style.Nasa_Red)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        if (showPicture)
+            menuInflater.inflate(R.menu.notes_main_menu, menu)
+        else
+            menuInflater.inflate(R.menu.image_main_menu, menu)
+        this.menu = menu!!
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.normal_theme  -> {
-                saveTheme(THEME_NORMAL)
+                saveTheme(THEME_GREEN)
+                recreate()
+                return true
             }
             R.id.marsian_theme -> {
-                saveTheme(THEME_MARSIAN)
+                saveTheme(THEME_RED)
+                recreate()
+                return true
+            }
+            R.id.image         -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MainFragment.newInstance())
+                    .commitNow()
+                showPicture = false
+                invalidateOptionsMenu()
+                return true
+            }
+            R.id.note          -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, NoteFragment.newInstance())
+                    .commitNow()
+                showPicture = true
+                invalidateOptionsMenu()
+                return true
             }
         }
-        recreate()
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun saveTheme(str: String) {
         getSharedPreferences(packageName, Context.MODE_PRIVATE)
             .edit()
-            .putString(PREFERENCES, if (str == THEME_NORMAL) THEME_NORMAL else THEME_MARSIAN)
+            .putString(PREFERENCES, if (str == THEME_GREEN) THEME_GREEN else THEME_RED)
             .apply()
     }
 }
