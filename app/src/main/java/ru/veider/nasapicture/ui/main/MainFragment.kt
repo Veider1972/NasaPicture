@@ -2,7 +2,13 @@ package ru.veider.nasapicture.ui.main
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,19 +17,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.transition.*
 import coil.api.load
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.main_fragment.*
 import ru.veider.nasapicture.R
 import ru.veider.nasapicture.const.TAG
 import ru.veider.nasapicture.databinding.MainFragmentBinding
 import ru.veider.nasapicture.repository.nasa.NasaRepositoryImpl
 import ru.veider.nasapicture.ui.ANIMATION_DURATION
 import ru.veider.nasapicture.ui.WIKI_SEARCH_BACKSTACK
-import ru.veider.nasapicture.ui.note.NoteFragment
 import ru.veider.nasapicture.ui.search.WikiSearchFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +97,6 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
-
             })
         }
 
@@ -156,12 +160,57 @@ class MainFragment : Fragment(R.layout.main_fragment) {
                     binding.apply {
                         image.load(it.hdUrl)
                         animateImageOn()
-                        title.text = String.format("%s:", it.title)
-                        bottomSheet.description.text = it.explanation
+                        title.apply {
+                            text = String.format("%s:", it.title)
+                            typeface = Typeface.createFromAsset(resources.assets, "neatly_printed.ttf")
+                        }
+                        bottomSheet.description.text = spanText(it.explanation)
                     }
                 }
             }
         }
+    }
+
+    private fun spanText(str: String): CharSequence {
+        val spaces = str.split(" ")
+        val spannableStr = SpannableString(str)
+        var nextSpace = 0
+        var currentSpace = 0
+
+        for (i in 0 until spaces.lastIndex) {
+            val currentLength = spaces[i].length + 1
+            nextSpace += currentLength
+            if (i % 2 == 0) {
+                spannableStr.setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(this@MainFragment.requireContext(), R.color.red)),
+                    currentSpace,
+                    nextSpace,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            } else if (i % 3 == 0) {
+                spannableStr.setSpan(
+                    StyleSpan(Typeface.BOLD_ITALIC),
+                    currentSpace,
+                    nextSpace,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                spannableStr.setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(this@MainFragment.requireContext(), R.color.black)),
+                    currentSpace,
+                    nextSpace,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            } else if (i % 5 == 0) {
+                spannableStr.setSpan(
+                    RelativeSizeSpan(2.0f),
+                    currentSpace,
+                    nextSpace,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            currentSpace = nextSpace
+        }
+        return spannableStr
     }
 
     private fun wikiEffect() {

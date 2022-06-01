@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             R.id.image         -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
+                    .commit()
                 showPicture = false
                 invalidateOptionsMenu()
                 return true
