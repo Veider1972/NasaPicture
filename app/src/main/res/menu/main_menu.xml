@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <item
+        android:id="@+id/note"
+        android:title="@string/notes"
+        android:icon="@drawable/note"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/image"
         android:title="@string/notes"
         android:icon="@drawable/image"
+        android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/normal_theme"
+        android:id="@+id/green_theme"
         android:title="@string/theme_green" />
     <item
-        android:id="@+id/marsian_theme"
+        android:id="@+id/red_theme"
         android:title="@string/theme_red" />
 </menu>

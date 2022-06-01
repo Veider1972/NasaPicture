@@ -2,9 +2,8 @@ package ru.veider.nasapicture
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import ru.veider.nasapicture.databinding.MainActivityBinding
 import ru.veider.nasapicture.ui.PREFERENCES
 import ru.veider.nasapicture.ui.THEME_GREEN
 import ru.veider.nasapicture.ui.THEME_RED
@@ -13,13 +12,48 @@ import ru.veider.nasapicture.ui.note.NoteFragment
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var menu: Menu
-    var showPicture = false
+    private var showPicture = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadTheme()
-        setContentView(R.layout.main_activity)
+
+        val binding = MainActivityBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
+        binding.toolbar.menu. apply {
+            findItem(R.id.green_theme).setOnMenuItemClickListener {
+                saveTheme(THEME_GREEN)
+                recreate()
+                true
+            }
+            findItem(R.id.red_theme).setOnMenuItemClickListener {
+                saveTheme(THEME_RED)
+                recreate()
+                true
+            }
+            findItem(R.id.note).setOnMenuItemClickListener {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, NoteFragment.newInstance())
+                    .commitNow()
+                showPicture = true
+                findItem(R.id.note).isVisible = false
+                findItem(R.id.image).isVisible = true
+                binding.toolbar.title = resources.getString(R.string.notes)
+                true
+            }
+            findItem(R.id.image).setOnMenuItemClickListener {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MainFragment.newInstance())
+                    .commit()
+                showPicture = false
+                findItem(R.id.image).isVisible = false
+                findItem(R.id.note).isVisible = true
+                binding.toolbar.title = resources.getString(R.string.app_name)
+                true
+            }
+        }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())
@@ -39,51 +73,51 @@ class MainActivity : AppCompatActivity() {
             THEME_RED   -> setTheme(R.style.Nasa_Red)
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if (showPicture)
-            menuInflater.inflate(R.menu.notes_main_menu, menu)
-        else
-            menuInflater.inflate(R.menu.image_main_menu, menu)
-        this.menu = menu!!
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.normal_theme  -> {
-                saveTheme(THEME_GREEN)
-                recreate()
-                return true
-            }
-            R.id.marsian_theme -> {
-                saveTheme(THEME_RED)
-                recreate()
-                return true
-            }
-            R.id.image         -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commit()
-                showPicture = false
-                invalidateOptionsMenu()
-                return true
-            }
-            R.id.note          -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, NoteFragment.newInstance())
-                    .commitNow()
-                showPicture = true
-                invalidateOptionsMenu()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return super.onPrepareOptionsMenu(menu)
-    }
+//
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        if (showPicture)
+//            menuInflater.inflate(R.menu.notes_main_menu, menu)
+//        else
+//            menuInflater.inflate(R.menu.image_main_menu, menu)
+//        this.menu = menu!!
+//        return true
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.normal_theme  -> {
+//                saveTheme(THEME_GREEN)
+//                recreate()
+//                return true
+//            }
+//            R.id.marsian_theme -> {
+//                saveTheme(THEME_RED)
+//                recreate()
+//                return true
+//            }
+//            R.id.image         -> {
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.container, MainFragment.newInstance())
+//                    .commit()
+//                showPicture = false
+//                invalidateOptionsMenu()
+//                return true
+//            }
+//            R.id.note          -> {
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.container, NoteFragment.newInstance())
+//                    .commitNow()
+//                showPicture = true
+//                invalidateOptionsMenu()
+//                return true
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
+//
+//    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+//        return super.onPrepareOptionsMenu(menu)
+//    }
 
     private fun saveTheme(str: String) {
         getSharedPreferences(packageName, Context.MODE_PRIVATE)
