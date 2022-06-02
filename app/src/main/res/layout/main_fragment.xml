@@ -24,40 +24,6 @@
             android:visibility="gone"
             tools:visibility="visible">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/image_layout"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:translationX="@dimen/translation_image">
-
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/TextView.Header"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Mercury" />
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/global_padding"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    app:layout_constraintTop_toBottomOf="@id/title" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/bareer"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/global_padding"
-                app:layout_constraintTop_toBottomOf="@id/image_layout"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:visibility="gone"
                 tools:visibility="visible"
@@ -65,7 +31,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/bareer"
+                app:layout_constraintTop_toTopOf="parent"
                 app:endIconCheckable="true"
                 app:endIconDrawable="@drawable/search"
                 app:endIconMode="custom"
@@ -77,6 +43,37 @@
                     android:layout_height="wrap_content"
                     android:textColor="?colorOnPrimary" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:translationX="1500dp"
+                tools:translationX="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wiki_search_text">
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/TextView.Header"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Mercury" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout_height="300dp"
+                    android:layout_marginTop="@dimen/global_padding"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,7 +88,7 @@
             android:visibility="gone"
             tools:visibility="visible"
             app:tint="@null"
-            app:maxImageSize="@dimen/fab_image_size"
+            app:maxImageSize="56dp"
             android:elevation="@dimen/fab_elevation"
             tools:ignore="ContentDescription" />
 
@@ -104,7 +101,7 @@
         android:id="@+id/bottom_navigation_view"
         style="@style/BottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_navigation_view_height"
+        android:layout_height="wrap_content"
         android:translationY="@dimen/translation_toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
