@@ -3,6 +3,7 @@ package ru.veider.nasapicture.ui.main
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -14,14 +15,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.transition.*
 import coil.api.load
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.main_fragment.*
 import ru.veider.nasapicture.R
+import ru.veider.nasapicture.const.TAG
 import ru.veider.nasapicture.databinding.MainFragmentBinding
 import ru.veider.nasapicture.repository.nasa.NasaRepositoryImpl
 import ru.veider.nasapicture.ui.ANIMATION_DURATION
-import ru.veider.nasapicture.ui.DAY
 import ru.veider.nasapicture.ui.WIKI_SEARCH_BACKSTACK
+import ru.veider.nasapicture.ui.note.NoteFragment
 import ru.veider.nasapicture.ui.search.WikiSearchFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,33 +33,26 @@ class MainFragment : Fragment(R.layout.main_fragment) {
     private lateinit var binding: MainFragmentBinding
     private var isImageExpanded = false
 
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(NasaRepositoryImpl()) }
 
     companion object {
-        var instance: MainFragment? = null
-        fun newInstance() : MainFragment {
-            if (instance == null) instance = MainFragment()
-            return instance!!
-        }
+        @JvmStatic
+        fun newInstance() = MainFragment()
     }
-
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(NasaRepositoryImpl()) }
 
     private fun getDay(day: DAY): String {
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
         when (day) {
             DAY.TODAY        -> {}
-            DAY.YESTERDAY    -> {
-                calendar.add(Calendar.DATE, -1)
-            }
-            DAY.EREYESTERDAY -> {
-                calendar.add(Calendar.DATE, -2)
-            }
+            DAY.YESTERDAY    -> calendar.add(Calendar.DATE, -1)
+            DAY.EREYESTERDAY -> calendar.add(Calendar.DATE, -2)
         }
         return dateFormat.format(calendar.time)
     }
 
     private fun animateImageOn() {
+        Log.d(TAG, "animateImageOn")
         binding.imageLayout.apply {
             ObjectAnimator.ofFloat(this, "translationX", resources.getDimension(R.dimen.translation_image), 0f).apply {
                 duration = ANIMATION_DURATION
@@ -66,8 +61,13 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        Log.d(TAG, "onCreateView")
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         binding = MainFragmentBinding.bind(view)
         if (savedInstanceState == null) {
@@ -75,10 +75,31 @@ class MainFragment : Fragment(R.layout.main_fragment) {
             animateImageOn()
         }
 
+        binding.pictureTabLayout.apply {
+            this.getTabAt(2)?.select()
+            if (savedInstanceState == null)
+                tabLayoutIn(this)
+            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    animateImageOn()
+                    when (tab?.position) {
+                        DAY.EREYESTERDAY.ordinal -> viewModel.requestPOD(getDay(DAY.EREYESTERDAY))
+                        DAY.YESTERDAY.ordinal    -> viewModel.requestPOD(getDay(DAY.YESTERDAY))
+                        DAY.TODAY.ordinal        -> viewModel.requestPOD(getDay(DAY.TODAY))
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            })
+        }
+
         binding.image.setOnClickListener {
             isImageExpanded = !isImageExpanded
             TransitionManager.beginDelayedTransition(
-                main_layout, TransitionSet()
+                binding.main, TransitionSet()
                     .addTransition(ChangeBounds())
                     .addTransition(ChangeImageTransform())
             )
@@ -95,21 +116,6 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
             binding.wikiSearchText.visibility = if (binding.wikiSearchText.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             wikiEffect()
-        }
-
-        with(binding.bottomNavigationView) {
-            selectedItemId = R.id.today
-            setOnItemSelectedListener { item ->
-                animateImageOn()
-                when (item.itemId) {
-                    R.id.ereyesterday -> viewModel.requestPOD(getDay(DAY.EREYESTERDAY))
-                    R.id.yesterday    -> viewModel.requestPOD(getDay(DAY.YESTERDAY))
-                    R.id.today        -> viewModel.requestPOD(getDay(DAY.TODAY))
-                }
-                true
-            }
-            if (savedInstanceState == null)
-                bottomNavigationIn(this)
         }
 
         binding.wikiSearchText.apply {
@@ -159,6 +165,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
     }
 
     private fun wikiEffect() {
+        Log.d(TAG, "wikiEffect")
         if (binding.wikiSearchText.visibility == View.VISIBLE) {
             ObjectAnimator.ofFloat(binding.wikiShow, "rotation", 0f, -180f).start()
         } else {
@@ -166,13 +173,17 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         }
     }
 
-    private fun bottomNavigationIn(bottomNavigationView: BottomNavigationView) {
-        bottomNavigationView.translationY = resources.getInteger(R.integer.fab_rotation).toFloat()
-        ValueAnimator.ofFloat(resources.getDimension(R.dimen.translation_toolbar), 0f).apply {
-            duration = ANIMATION_DURATION
-            addUpdateListener {
-                bottomNavigationView.translationY = this.animatedValue as Float
-            }
-        }.start()
+    private fun tabLayoutIn(tabLayout: TabLayout) {
+        Log.d(TAG, "tabLayoutIn")
+        tabLayout.apply {
+            translationY = resources.getDimension(R.dimen.translation_toolbar)
+            visibility = View.VISIBLE
+            ValueAnimator.ofFloat(resources.getDimension(R.dimen.translation_toolbar), 0f).apply {
+                duration = ANIMATION_DURATION
+                addUpdateListener {
+                    translationY = this.animatedValue as Float
+                }
+            }.start()
+        }
     }
 }

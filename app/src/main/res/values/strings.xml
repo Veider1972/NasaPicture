@@ -10,4 +10,14 @@
     <string name="ereyesterday">Позавчера</string>
     <string name="yesterday">Вчера</string>
     <string name="today">Сегодня</string>
+    <string name="note_edit_title">Редактирование заметки</string>
+    <string name="note_insert_title">Текст заметки</string>
+    <string name="note_editor_hint">Создайте текст заметки</string>
+    <string name="note_editor_accept">Принять</string>
+    <string name="note_editor_cancel">Отменить</string>
+    <string name="delete_note_question">Вы подтверждаете удаление заметки?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="note_type_query">Какого типа заметку вы хотите создать?</string>
+    <string name="notes">Заметки</string>
 </resources>
