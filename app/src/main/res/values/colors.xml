@@ -13,4 +13,5 @@
     <color name="bottom_sheet_selected">?colorPrimaryDark</color>
     <color name="bottom_sheet_unselected">?colorSecondary</color>
     <color name="note_selected">?colorPrimaryContainer</color>
+    <color name="black">#000000</color>
 </resources>

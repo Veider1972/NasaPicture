@@ -14,19 +14,28 @@ import ru.veider.nasapicture.repository.wiki.WikiRepositoryImpl
 import ru.veider.nasapicture.repository.wiki.WikiResponse
 import ru.veider.nasapicture.ui.wiki.WikiFragment
 
-class WikiSearchFragment(val searchingWord: String) : Fragment(R.layout.wiki_search_fragment) {
+class WikiSearchFragment : Fragment(R.layout.wiki_search_fragment) {
 
     private val viewModel: WikiSearchViewModel by viewModels { WikiSearchViewModelFactory(WikiRepositoryImpl()) }
 
     companion object {
-        @JvmStatic
-        fun newInstance(searchingWord: String) = WikiSearchFragment(searchingWord)
+        const val PARAM: String = "PARAM"
+        fun newInstance(searchingWord: String): WikiSearchFragment {
+            return WikiSearchFragment().apply {
+                arguments = Bundle().apply {
+                    putString(PARAM, searchingWord)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (savedInstanceState == null) {
-            viewModel.requestSearchedWord(searchingWord)
+            arguments?.getString(PARAM, "")?.apply {
+                viewModel.requestSearchedWord(this)
+            }
         }
     }
 

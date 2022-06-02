@@ -1,7 +1,7 @@
 <resources>
     <!-- Base application theme. -->
 
-    <style name="Nasa" parent = "Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Nasa" parent = "Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="textAppearanceLargePopupMenu">@style/NasaMenu</item>

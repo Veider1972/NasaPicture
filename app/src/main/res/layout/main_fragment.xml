@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/picture_tab_layout"
         style="@style/Widget.MaterialComponents.Toolbar.Surface"
@@ -14,14 +13,14 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         tools:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/root"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ereyesterday" />
+            android:text="@string/ereyesterday"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
