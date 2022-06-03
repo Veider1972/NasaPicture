@@ -73,51 +73,6 @@ class MainActivity : AppCompatActivity() {
             THEME_RED   -> setTheme(R.style.Nasa_Red)
         }
     }
-//
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        if (showPicture)
-//            menuInflater.inflate(R.menu.notes_main_menu, menu)
-//        else
-//            menuInflater.inflate(R.menu.image_main_menu, menu)
-//        this.menu = menu!!
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId) {
-//            R.id.normal_theme  -> {
-//                saveTheme(THEME_GREEN)
-//                recreate()
-//                return true
-//            }
-//            R.id.marsian_theme -> {
-//                saveTheme(THEME_RED)
-//                recreate()
-//                return true
-//            }
-//            R.id.image         -> {
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.container, MainFragment.newInstance())
-//                    .commit()
-//                showPicture = false
-//                invalidateOptionsMenu()
-//                return true
-//            }
-//            R.id.note          -> {
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.container, NoteFragment.newInstance())
-//                    .commitNow()
-//                showPicture = true
-//                invalidateOptionsMenu()
-//                return true
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-//
-//    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-//        return super.onPrepareOptionsMenu(menu)
-//    }
 
     private fun saveTheme(str: String) {
         getSharedPreferences(packageName, Context.MODE_PRIVATE)
